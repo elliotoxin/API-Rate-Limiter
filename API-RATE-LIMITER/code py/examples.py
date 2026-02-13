@@ -1,4 +1,5 @@
 """
+elliotoxin | 2025
 Advanced Rate Limiter - Usage Examples and Demonstrations
 Shows practical examples of using the rate limiter
 """
