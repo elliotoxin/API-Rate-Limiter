@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: rate-limiter-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  api:
+    build: .
+    container_name: rate-limiter-api
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_APP=app.py
+      - REDIS_URL=redis://redis:6379/0
+      - FLASK_ENV=development
+    depends_on:
+      redis:
+        condition: service_healthy
+    volumes:
+      - .:/app
+    command: python app.py
+
+  tests:
+    build: .
+    container_name: rate-limiter-tests
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - redis
+    volumes:
+      - .:/app
+    command: python -m pytest test_rate_limiter.py -v
+    profiles:
+      - test
+
+volumes:
+  redis_data:
