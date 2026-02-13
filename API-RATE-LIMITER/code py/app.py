@@ -1,5 +1,5 @@
 """
-elliotoxin | 2026
+elliotoxin | 2025
 Flask API Server with Advanced Rate Limiting
 Demonstrates rate limiting in a real-world API context
 """
