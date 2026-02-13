@@ -1,4 +1,5 @@
 """
+elliotoxin | 2025
 Advanced API Rate Limiter Implementation
 Supports multiple algorithms: Token Bucket, Sliding Window, Leaky Bucket, Fixed Window
 With Redis integration for distributed systems
